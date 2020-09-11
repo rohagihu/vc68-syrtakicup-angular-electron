@@ -1,0 +1,4 @@
+<app-ranking is="placement"></app-ranking>
+<app-schedule [placementRound]="placementRound" (calcRanking)="ranking.calc()"></app-schedule>
+<app-ranking-final #ranking [placementRound]="placementRound"></app-ranking-final>
+<app-init *ngIf="placementRound.init" [placementRound]="placementRound"></app-init>

@@ -1,0 +1,35 @@
+<div class="d-flex px-3 my-3" *ngIf="init">
+  <div
+    class="flex-fill px-4 w-33"
+    *ngFor="let group of ranking; let iGroup = index"
+  >
+    <ul
+      class="list-group list-group-flush  d-table"
+      [ngClass]="{'w-100 border border-white text-white': is === 'placement', 'text-dark': is === 'preliminary'}"
+    >
+      <li
+        class="list-group-item py-1 d-table-row"
+        [ngClass]="is === 'placement' ? ('custom-bg-' + placementRound.colors[i]) : ''"
+        *ngFor="let team of group.teams; let i = index"
+      >
+        <div class="d-table-cell pl-2">
+          {{i+1}}.
+        </div>
+        <div class="d-table-cell pl-2">
+          <mdb-badge pill="true" [color]="preliminaryRound.colors[team.teamID]" *ngIf="is === 'preliminary'">{{group.group+(team.teamID+1)}}</mdb-badge>
+          <span class="ml-2">{{team.teamName}}</span>
+        </div>
+        <div class="d-table-cell pl-3">
+          <span class="">{{team.smallPointsWon}}:{{team.smallPointsLost}}</span>
+        </div>
+        <div class="d-table-cell pl-3 pr-2">
+          <span class="font-weight-bold">{{team.bigPointsWon}}:{{team.bigPointsLost}}</span>
+        </div>
+        <div class="d-table-cell pl-3 pr-2">
+          <small class="grey-text">{{team.smallPointsWon - team.smallPointsLost}}</small>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+

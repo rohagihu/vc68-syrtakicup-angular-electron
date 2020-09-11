@@ -1,0 +1,35 @@
+<app-part01-teams *ngIf="registrySteps.part1" (done)="next($event)"></app-part01-teams>
+<app-part02-rules *ngIf="registrySteps.part2" (done)="next($event)" (undo)="before($event)"></app-part02-rules>
+<app-part03-game-schedules *ngIf="registrySteps.part3" (done)="next($event)" (undo)="before($event)"></app-part03-game-schedules>
+<app-part04-summary *ngIf="registrySteps.part4" (done)="finish($event)" (undo)="before($event)"></app-part04-summary>
+
+<div mdbModal #availableModal="mdbModal" class="modal fade text-dark" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="availableModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100">Nicht beendete Turniere</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group list-group-flush text-dark container">
+          <div class="d-flex list-group-item p-0" *ngFor="let item of availableOpenedGames; let i = index">
+            <a
+              class="list-group-item-action p-3"
+
+              (click)="selectSavedGame(i)"
+            >
+              {{item.id}} {{item.timestamp}}
+            </a>
+            <a class="p-3" (click)="deleteSavedGame(i)">
+              <mdb-icon fas icon="trash-alt" class="red-text"></mdb-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="availableModal.hide()" mdbWavesEffect>Abbrechen</button>
+      </div>
+    </div>
+  </div>

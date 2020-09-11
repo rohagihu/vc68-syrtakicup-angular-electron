@@ -1,0 +1,225 @@
+<h1 class="text-center">Spielplan Vorrunde</h1>
+<div class="d-flex justify-content-center" *ngIf="shown">
+  <ul class="list-group list-group-flush text-dark p-3 text-center">
+    <li
+      draggable="true"
+      class="list-group-item"
+      [class]="{'bg-danger': game.referee === game.teamA || game.referee === game.teamB}"
+      *ngFor="let game of schedule; let i = index"
+      [attr.data-id]="i"
+      (dragstart)="dragstartHandler($event, 'complete')"
+      (dragover)="dragoverHandler($event)"
+      (drop)="dropHandler($event)"
+      style="cursor: move"
+    >
+
+      {{i+1 | number:'2.0'}}
+
+    </li>
+  </ul>
+
+  <ul class="list-group list-group-flush text-dark p-3 text-center">
+    <li
+      draggable="true"
+      class="list-group-item"
+      [class]="{'bg-danger': game.referee === game.teamA || game.referee === game.teamB}"
+      *ngFor="let game of schedule; let i = index"
+      [attr.data-id]="i"
+      (dragstart)="dragstartHandler($event, 'teams')"
+      (dragover)="dragoverHandler($event)"
+      (drop)="dropHandler($event)"
+      style="cursor: move"
+    >
+
+      <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamA]">
+        <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+        Team {{game.teamA +1}}
+      </mdb-badge> -
+      <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamB]">
+        Team {{game.teamB +1}}
+        <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+      </mdb-badge>
+    </li>
+  </ul>
+
+  <ul class="list-group list-group-flush text-dark p-3 text-center">
+    <li
+      draggable="true"
+      class="list-group-item"
+      [class]="{'bg-danger': game.referee === game.teamA || game.referee === game.teamB}"
+      *ngFor="let game of schedule; let i = index"
+      [attr.data-id]="i"
+      (dragstart)="dragstartHandler($event, 'referee')"
+      (dragover)="dragoverHandler($event)"
+      (drop)="dropHandler($event)"
+      style="cursor: move"
+      (click)="openRefereeList(i)"
+    >
+      <mdb-badge
+        pill="true"
+        [color]="preliminaryRound.colors[game.referee]"
+        style="pointer-events: none;"
+      >
+        <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+        Referee: {{game.referee +1}}
+      </mdb-badge>
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+<div class="text-center">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="stepBack()">
+    <mdb-icon fas icon="chevron-circle-left" class="mr-1"></mdb-icon>
+    Zurück
+  </button>
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="shuffle()">
+    Neu würfeln
+    <mdb-icon fas icon="dice" class="ml-1"></mdb-icon>
+  </button>
+  <button [disabled]="checkReferees()" type="button" mdbBtn color="primary" mdbWavesEffect (click)="next()">
+    Weiter
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>
+
+
+<div class="text-center mt-3">
+  <button type="button" mdbBtn color="success" mdbWavesEffect (click)="saveToDB()">Als Vorlage speichern</button>
+</div>
+
+
+
+<!-- Vorlagen Liste -->
+<h2 class="text-center mt-5 h4">Gespeicherte Vorlage laden</h2>
+<div class="list-group list-group-flush text-dark container mb-5">
+  <a
+    class="list-group-item list-group-item-action"
+    *ngFor="let item of savedSchedules"
+    (click)="selectSavedSchedule(item.id)"
+  >
+    {{item.id}} {{item.timestamp}}
+  </a>
+</div>
+
+
+
+<!-- Ausgewählte Vorlage Detailansicht -->
+<ng-container *ngIf="selectedSchedule.length > 0">
+  <h2 id="selectedSavedSchedule" class="text-center mt-4">Vorlage</h2>
+  <div class="d-flex justify-content-center">
+    <ul class="list-group list-group-flush text-dark p-3 text-center">
+      <li
+        class="list-group-item d-flex"
+        *ngFor="let game of selectedSchedule; let i = index"
+      >
+        <div class="mr-3">
+          {{i+1 | number:'2.0'}}
+        </div>
+
+        <div>
+          <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            Team {{game.teamA +1}}
+          </mdb-badge> -
+          <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamB]">
+            Team {{game.teamB +1}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+        </div>
+
+        <div class="ml-4">|</div>
+
+        <div class="ml-4">
+          <mdb-badge
+            pill="true"
+            [color]="preliminaryRound.colors[game.referee]"
+            style="pointer-events: none;"
+          >
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            Referee: {{game.referee +1}}
+          </mdb-badge>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="text-center mt-3 mb-5">
+    <button type="button" mdbBtn color="success" mdbWavesEffect (click)="confirmSavedSchedule()">Vorlage übernehmen</button>
+    <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="deleteSavedSchedule()">
+      <mdb-icon fas icon="trash-alt" class="mr-1"></mdb-icon>
+      Vorlage löschen
+    </button>
+    <button type="button" mdbBtn color="grey" mdbWavesEffect (click)="selectedSchedule = []; selectedScheduleID = null;">
+      <mdb-icon fas icon="times-circle" class="mr-1"></mdb-icon>
+      Abbrechen
+    </button>
+  </div>
+</ng-container>
+
+
+
+<!-- MODAL -->
+<div mdbModal #refereeModal="mdbModal" class="modal fade left text-dark" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Referee</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="refereeModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        class="modal-body mx-3 text-center"
+        *ngIf="refereeModalSelected !== null"
+      >
+        <h4>Aktueller Referee für die Ansetzung:</h4>
+
+        <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[schedule[refereeModalSelected].teamA]">
+          <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          Team {{schedule[refereeModalSelected].teamA}}
+        </mdb-badge> -
+        <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[schedule[refereeModalSelected].teamB]">
+          Team {{schedule[refereeModalSelected].teamB}}
+          <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+        </mdb-badge>
+
+        <h4>ist</h4>
+
+        <mdb-badge
+          pill="true"
+          [color]="preliminaryRound.colors[schedule[refereeModalSelected].referee]"
+          style="pointer-events: none;"
+        >
+          <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+          Referee: {{schedule[refereeModalSelected].referee}}
+        </mdb-badge>
+
+        <h4 class="mt-4">Neue Auswahl:</h4>
+
+        <ul class="list-group list-group-flush text-center">
+          <li
+            draggable="true"
+            class="list-group-item"
+            *ngFor="let teamColor of preliminaryRound.colors; let i = index"
+            (click)="selectReferee(i)"
+            style="cursor: pointer;"
+          >
+            <mdb-badge
+              pill="true"
+              [color]="teamColor"
+            >
+              <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+              Team {{i}}
+            </mdb-badge>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>

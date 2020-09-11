@@ -1,0 +1,59 @@
+<div mdbModal #scoringModal="mdbModal" (close)="onClose($event)" class="modal fade left text-dark" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+>
+  <div class="modal-dialog" role="document" *ngIf="modalData">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Punkte eintragen</h4>
+      </div>
+      <div
+        class="modal-body mx-3 text-center"
+      >
+
+        <div class="flex-grow-1">
+<!--           <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[selectedMatch.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.teamA].team.name}}
+          </mdb-badge>
+          -
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[selectedMatch.teamB]">
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.teamB].team.name}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+          |
+          <mdb-badge class="schedule-team-pill" style="margin-left: auto;" pill="true" [color]="preliminaryRound.colors[selectedMatch.referee]">
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.referee].team.name}}
+          </mdb-badge> -->
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="modalData.teamAColor || modalData.colors[modalData.selectedMatch.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            {{modalData.teamAName}}
+          </mdb-badge>
+          -
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="modalData.teamBColor || modalData.colors[modalData.selectedMatch.teamB]">
+            {{modalData.teamBName}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+          |
+          <mdb-badge class="schedule-team-pill" style="margin-left: auto;" pill="true" [color]="modalData.refereeColor || modalData.colors[modalData.selectedMatch.referee]">
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            {{modalData.refereeName}}
+          </mdb-badge>
+        </div>
+
+
+        <div class="form-row mb-2 mt-2" *ngFor="let game of modalData.selectedMatch.game" >
+          <div class="col">
+            <!-- First name -->
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsA" class="form-control" placeholder="">
+          </div> :
+          <div class="col">
+            <!-- Last name -->
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsB" class="form-control" placeholder="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import './node_modules/angular-bootstrap-md/assets/scss/core/bootstrap/_functions';
+@import './node_modules/angular-bootstrap-md/assets/scss/core/bootstrap/variables';
+@import './node_modules/angular-bootstrap-md/assets/scss/core/colors';
+@import './node_modules/angular-bootstrap-md/assets/scss/core/variables';
+
+
+body {
+  background: $indigo-base;
+  color: $white;
+}
+
+.placementround-schedule-table tbody td:hover,
+.list-group-item-action:hover {
+  cursor: pointer;
+  background-color: $amber-darken-4;
+  color: #fff;
+}
+
+.schedule-list-element {
+  min-height: 40px;
+}
+
+.schedule-team-pill {
+  overflow: hidden;
+  max-width: 27%;
+  width: 27%;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.schedule-points {
+  margin-left: auto;
+  margin-right: 10px;
+  > * {
+    line-height: 1;
+  }
+}
+
+.w-33 {
+  width: 33.3%;
+}
+
+@each $color-block, $color-block-map in $mdb-colors-1 {
+  @each $type, $value in $color-block-map {
+    .custom-bg-#{$color-block}-#{$type} {
+      background-color: rgba($value, 0.2);
+    }
+    @if ($type == 'base') {
+      .custom-bg-#{$color-block} {
+        background-color: rgba($value, 0.7);
+      }
+    }
+  }
+}
+

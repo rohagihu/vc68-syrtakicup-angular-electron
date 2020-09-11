@@ -1,0 +1,25 @@
+<p class="text-center">Hinweis: Die Spiele der Platzierungsrunden
+  <span
+    class="d-inline-block border border-white px-1"
+    [ngClass]="'custom-bg-' + placementRound.colors[0]"
+  >1-3</span>,
+  <span
+    class="d-inline-block border border-white px-1"
+    [ngClass]="'custom-bg-' + placementRound.colors[1]"
+  >4-6</span>, und
+  <span
+    class="d-inline-block border border-white px-1"
+    [ngClass]="'custom-bg-' + placementRound.colors[2]"
+  >7-9</span> sind a) blockweise und b) an fixen Positionen (bspw. 1-3 die letzten 3 Spiele)
+</p>
+
+<div class="text-center mt-3">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="shuffle()">
+    Neu würfeln
+    <mdb-icon fas icon="dice" class="ml-1"></mdb-icon>
+  </button>
+  <button type="button" mdbBtn color="success" mdbWavesEffect (click)="start()">
+    Platzierungsrunde starten
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>

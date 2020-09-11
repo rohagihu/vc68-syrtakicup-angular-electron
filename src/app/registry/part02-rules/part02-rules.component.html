@@ -1,0 +1,80 @@
+<h1 class="text-center">Spielmodus Vorrunde</h1>
+
+
+<div class="alert alert-primary text-center text-dark my-4 w-50" style="margin-left: auto; margin-right: auto;" role="info">
+  <div class="custom-control custom-radio custom-control-inline">
+    <input
+      type="radio"
+      class="custom-control-input"
+      [(ngModel)]="preliminaryRound.mode"
+      [checked]="preliminaryRound.mode === 'byTime'"
+      value="byTime"
+      id="byTime"
+      name="ruleSet"
+      mdbInput
+    >
+    <label class="custom-control-label" for="byTime">nach Zeit</label>
+  </div>
+
+  <div class="custom-control custom-radio custom-control-inline">
+    <input
+      type="radio"
+      class="custom-control-input"
+      [(ngModel)]="preliminaryRound.mode"
+      [checked]="preliminaryRound.mode === 'byPoints'"
+      value="byPoints"
+      id="byPoints"
+      name="byPoints"
+      mdbInput
+    >
+    <label class="custom-control-label" for="byPoints">nach Punkten</label>
+  </div>
+</div>
+
+
+<mdb-card class="w-50 mb-3" style="margin: 0 auto;">
+  <mdb-card-body>
+
+    <mdb-card-title>
+      <h4 class="text-dark">{{preliminaryRound.modeLabel[preliminaryRound.mode]}}</h4>
+    </mdb-card-title>
+
+    <div class="md-form">
+      <input type="number" class="form-control" id="sets" mdbInput [(ngModel)]="preliminaryRound.sets">
+      <label for="sets">Spielsätze</label>
+    </div>
+
+    <div class="md-form" *ngIf="preliminaryRound.mode === 'byTime'">
+      <input mdbInput type="text" id="duration" class="form-control" [(ngModel)]="preliminaryRound.duration">
+      <label for="duration" class="">Spieldauer</label>
+    </div>
+
+    <div class="md-form" *ngIf="preliminaryRound.mode === 'byPoints'">
+      <input mdbInput type="text" id="setLimit" class="form-control" [(ngModel)]="preliminaryRound.setLimit">
+      <label for="setLimit" class="">Satzende bei</label>
+    </div>
+
+    <mdb-checkbox
+      [(ngModel)]="preliminaryRound.activeTwoPointsDifference"
+      *ngIf="preliminaryRound.mode === 'byPoints'"
+      class="text-dark"
+      [default]="true"
+    >
+      2 Punkte unterschied
+    </mdb-checkbox>
+
+  </mdb-card-body>
+</mdb-card>
+
+
+
+<div class="text-center">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="stepBack()">
+    <mdb-icon fas icon="chevron-circle-left" class="mr-1"></mdb-icon>
+    Zurück
+  </button>
+  <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="next()">
+    Weiter
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>

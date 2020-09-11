@@ -1,0 +1,17 @@
+<div class="d-flex px-3 my-3">
+  <div
+    class="flex-fill px-4"
+    style="width: 33%"
+    *ngFor="let group of preliminaryRound.teamGroups; let iGroup = index"
+  >
+    <h4>Gruppe {{group.name}}</h4>
+    <ul class="list-group list-group-flush text-dark">
+      <li
+        class="list-group-item py-1"
+        *ngFor="let team of group.teams; let i = index"
+      >
+        <mdb-badge pill="true" [color]="preliminaryRound.colors[i]">{{group.name+(i+1)}}</mdb-badge> <span class="ml-2">{{team.team.name}}</span>
+      </li>
+    </ul>
+  </div>
+</div>

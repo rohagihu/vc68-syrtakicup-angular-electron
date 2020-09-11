@@ -1,0 +1,33 @@
+<h1 class="text-center">Teams</h1>
+
+<div class="d-flex p-3">
+  <div
+    class="flex-fill p-4"
+    *ngFor="let group of ['A','B','C']; let iGroup = index"
+  >
+    <h4>Gruppe {{group}}</h4>
+    <div
+      class="input-group mb-3"
+      *ngFor="let team of teams | slice:iGroup*5:(iGroup*5)+5; let i = index"
+    >
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">{{group+(i+1)}}</span>
+      </div>
+      <input type="text" [(ngModel)]="team.name" class="form-control">
+      <div class="input-group-append">
+        <span class="input-group-text" id="inputGroup-sizing-default"><mdb-icon fas icon="user" class="prefix grey-text"></mdb-icon></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="shuffle()">
+    Neu würfeln
+    <mdb-icon fas icon="dice" class="ml-1"></mdb-icon>
+  </button>
+  <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="next()">
+    Weiter
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>

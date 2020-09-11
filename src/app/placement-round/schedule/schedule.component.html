@@ -1,0 +1,73 @@
+<h1 class="text-center" *ngIf="placementRound.init">Platzierungsrunde initialisieren</h1>
+
+<table style="margin: 20px auto;" [class]="{'placementround-schedule-table': !placementRound.init}">
+  <thead>
+    <tr>
+      <th>
+
+      </th>
+      <th class="text-center">
+        Feld A
+      </th>
+      <th class="text-center">
+        Feld B
+      </th>
+      <th class="text-center">
+        Feld C
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <ng-container *ngFor="let row of [0,1,2,3,4]; let i = index">
+      <tr>
+        <td class="px-3 py-4 bg-white text-dark border border-dark">{{i+1}}</td>
+        <td
+          *ngFor="let scheduleRow of placementRound.schedule | filterByRow:i"
+          [ngClass]="'custom-bg-' + placementRound.colors[scheduleRow.preliminaryRankingGroup]"
+          class="px-3 py-2 border border-dark"
+          (click)="openScoreModal(scheduleRow, i)"
+        >
+          <!-- {{scheduleRow.preliminaryRankingGroup}}<br> -->
+          <div class="float-left">
+            <div>
+              <mdb-badge style="pointer-events: none;" pill="true" [color]="'grey'">
+                <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+                {{scheduleRow.teamA | getNameById:scheduleRow.preliminaryRankingGroup:(scheduleRow.teamA)}}
+              </mdb-badge> -
+              <mdb-badge style="pointer-events: none;" pill="true" [color]="'grey'">
+                {{scheduleRow.teamB | getNameById:scheduleRow.preliminaryRankingGroup:(scheduleRow.teamB)}}
+                <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+              </mdb-badge>
+            </div>
+            <div class="text-center mt-2">
+              <mdb-badge style="background-color: transparent" pill="true">
+                <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+                {{scheduleRow.referee | getNameById:scheduleRow.preliminaryRankingGroup:(scheduleRow.referee)}}
+              </mdb-badge>
+            </div>
+          </div>
+          <div class="float-right schedule-points pl-3" *ngIf="!placementRound.init">
+            <div
+              *ngFor="let points of scheduleRow.game"
+              [class]="{'d-none': placementRound.init}"
+            >
+              <small>{{points.pointsA | number:'2.0'}}:{{points.pointsB | number:'2.0'}}</small>
+            </div>
+            <div class="border border-dark bg-light text-dark text-center" [class]="{'invisible': scheduleRow.bigPointsA === 0 && scheduleRow.bigPointsB === 0}">
+                <small class="font-weight-bold">{{scheduleRow.bigPointsA + ':' + scheduleRow.bigPointsB}}</small>
+            </div>
+          </div>
+          <!-- {{scheduleRow.teamA}} - {{scheduleRow.teamB}} -->
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+
+<app-scoring-modal
+  #scoringModal
+  [modalData]="modalData"
+  (onCloseModal)="onClose()"
+></app-scoring-modal>

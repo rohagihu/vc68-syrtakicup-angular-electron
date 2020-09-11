@@ -1,0 +1,45 @@
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-primary" [containerInside]="false">
+
+    <!-- Navbar brand -->
+    <mdb-navbar-brand>
+      <a class="navbar-brand" routerLink="/preliminaryround">Syrtaki-Cup</a>
+    </mdb-navbar-brand>
+
+    <!-- Collapsible content -->
+    <links>
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto w-100 align-items-center">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/registry">Einstellungen</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link waves-light" mdbWavesEffect  routerLink="/preliminaryround">Vorrunde</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" >
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/placementround">Platzierungsrunde</a>
+            </li>
+<!--             <li class="nav-item">
+                <a class="nav-link waves-light btn-success" mdbWavesEffect *ngIf="progress.preliminaryRoundActive" (click)="startPlacementRound()">Vorrunde beenden</a>
+            </li> -->
+            <li class="nav-item" style="margin-left: auto;" (click)="saveDB()">
+              <a class="nav-link waves-light" mdbWavesEffect>
+                <mdb-icon far size="2x" class="lime-text" icon="save"></mdb-icon>
+              </a>
+            </li>
+<!--             <li class="nav-item" (click)="getDB()">
+              <a class="nav-link waves-light" mdbWavesEffect>
+                <mdb-icon far size="2x" class="lime-text" icon="file-archive"></mdb-icon>
+              </a>
+            </li> -->
+        </ul>
+        <!-- Links -->
+
+    </links>
+    <!-- Collapsible content -->
+
+</mdb-navbar>
+<!--/.Navbar-->
+
+<!-- <router-outlet></router-outlet> -->

@@ -1,0 +1,48 @@
+<ul class="list-group">
+  <li
+    *ngFor="let item of items; let i = index"
+    class="list-group-item"
+  >
+    <span
+      (click)="openModal(i)"
+      mdbBtn
+      class="mr-2"
+      style="cursor: pointer;"
+    >
+      ❌
+    </span>
+    {{ item }}
+  </li>
+</ul>
+
+
+<div class="input-group mb-3 w-25">
+  <input
+    type="text"
+    #itemInput
+    value="test"
+    class="form-control"
+    placeholder="New item"
+  >
+  <div class="input-group-append">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="addItem();"
+    >
+      Add
+    </button>
+  </div>
+</div>
+
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p>You really want to delete?</p>
+        <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+      </div>
+    </div>
+  </div>
+</div>
